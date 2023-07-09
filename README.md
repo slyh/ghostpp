@@ -13,6 +13,13 @@ Here are alternatives that are actively being developed as of 31 August 2018:
 * [Aura](https://github.com/Josko/aura-bot/): simple bot to host games from a server, with greatly modernized core but with many features (MySQL support, autohosting) stripped out
 * [maxemann96/ghostpp](https://github.com/maxemann96/ghostpp): a few additional features like votestart, commands from terminal
 
+What's New
+----------
+
+Discord Bot: An alternative of admin LAN game lobby.
+
+See [DISCORD.md](DISCORD.md) for more detail.
+
 1.30 Note
 ---------
 
