@@ -33,6 +33,23 @@ For 1.29, put `Warcraft III.exe` in the `bot_war3path`. You may name it `Warcraf
 
 Also, use `War3x.mpq` instead of `War3Patch.mpq`. (Actually, it is recommended that you extract common.j and blizzard.j yourself and put them in `bot_mapcfgpath`, since the new MPQ file is very large. Make sure to also exclude War3x.mpq from `bot_war3path` so that the host bot does not attempt to read the archive.)
 
+Docker
+------
+
+Dockerfile and docker-compose.yml are provided in this repository.
+
+Docker bridge network is unsupported because broadcasts are bounded inside the bridge network.
+
+To build and run GHost++ in a container:
+
+    # Docker will mount ghost.cfg as a directory if it doesn't exist
+    cp default.cfg ghost.cfg
+    mkdir maps
+    mkdir replays
+    mkdir savegames
+    mkdir war3
+    sudo docker compose up
+
 Compilation
 -----------
 
