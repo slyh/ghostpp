@@ -53,10 +53,15 @@ To build and run GHost++ in a container:
 Compilation
 -----------
 
-GHost++ depends on cmake, libboost, libgmp, zlib, libbz2, and libmysqlclient. These steps should suffice to compile GHost++ on Ubuntu 16.04:
+This fork of GHost++ depends on cmake, libboost, libgmp, zlib, libbz2, libmysqlclient and libdpp. These steps should suffice to compile GHost++ on Ubuntu 22.04:
 
-	sudo apt-get install -y cmake git libboost-all-dev build-essential libgmp-dev zlib1g-dev libbz2-dev libmysql++-dev
-	git clone https://github.com/uakfdotb/ghostpp
+	sudo apt-get install -y cmake git wget libboost-all-dev build-essential libgmp-dev zlib1g-dev libbz2-dev libmysql++-dev
+
+	wget -O libdpp.deb https://dl.dpp.dev/
+    sudo apt-get install -y ./libdpp.deb
+    rm ./libdpp.deb
+
+	git clone https://github.com/slyh/ghostpp
 	cd ghostpp
 
     cd bncsutil
