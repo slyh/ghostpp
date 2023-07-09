@@ -1,0 +1,12 @@
+services:
+  ghostpp:
+    build: .
+    network_mode: "host"
+    volumes:
+      - ./ghost.cfg:/ghostpp/ghost.cfg
+      - ./language.cfg:/ghostpp/language.cfg
+      - ./maps:/ghostpp/maps
+      - ./mapcfgs:/ghostpp/mapcfgs
+      - ./replays:/ghostpp/replays
+      - ./savegames:/ghostpp/savegames
+      - ./war3:/ghostpp/war3
