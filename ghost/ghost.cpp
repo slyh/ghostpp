@@ -369,7 +369,7 @@ int main( int argc, char **argv )
 
 CGHost :: CGHost( CConfig *CFG )
 {
-	m_UDPSocket = new CUDPSocket( );
+	m_UDPSocket = new CUDPServer( );
 	m_UDPSocket->SetBroadcastTarget( CFG->GetString( "udp_broadcasttarget", string( ) ) );
 	m_UDPSocket->SetDontRoute( CFG->GetInt( "udp_dontroute", 0 ) == 0 ? false : true );
 	m_ReconnectSocket = NULL;
@@ -493,6 +493,9 @@ CGHost :: CGHost( CConfig *CFG )
 	m_ReplayWar3Version = CFG->GetInt( "replay_war3version", 30 );
 	m_ReplayBuildNumber = CFG->GetInt( "replay_buildnumber", 6060 );
 	SetConfigs( CFG );
+
+	// bind UDP socket to host port
+	m_UDPSocket->Bind(m_BindAddress, m_HostPort);
 
 	// load the battle.net connections
 	// we're just loading the config data and creating the CBNET classes here, the connections are established later (in the Update function)
