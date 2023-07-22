@@ -34,6 +34,7 @@
 #include "game_base.h"
 
 #include <cmath>
+#include <random>
 #include <string.h>
 #include <time.h>
 
@@ -4102,6 +4103,8 @@ void CBaseGame :: ShuffleSlots( )
 
 	// now we shuffle PlayerSlots
 
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+
 	if( m_Map->GetMapOptions( ) & MAPOPT_CUSTOMFORCES )
 	{
 		// rather than rolling our own probably broken shuffle algorithm we use random_shuffle because it's guaranteed to do it properly
@@ -4114,7 +4117,7 @@ void CBaseGame :: ShuffleSlots( )
 		for( unsigned char i = 0; i < PlayerSlots.size( ); ++i )
 			SIDs.push_back( i );
 
-		random_shuffle( SIDs.begin( ), SIDs.end( ) );
+		shuffle( SIDs.begin( ), SIDs.end( ), std::default_random_engine( seed ) );
 
 		// now put the PlayerSlots vector in the same order as the SIDs vector
 
@@ -4132,7 +4135,7 @@ void CBaseGame :: ShuffleSlots( )
 		// regular game
 		// it's easy when we're allowed to swap the team/colour/race!
 
-		random_shuffle( PlayerSlots.begin( ), PlayerSlots.end( ) );
+		shuffle( PlayerSlots.begin( ), PlayerSlots.end( ), std::default_random_engine( seed ) );
 	}
 
 	// now we put m_Slots back together again
