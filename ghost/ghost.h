@@ -42,7 +42,6 @@ class CLanguage;
 class CMap;
 class CSaveGame;
 class CConfig;
-class CDiscord;
 
 struct GProxyReconnector {
 	CTCPSocket *socket;
@@ -64,7 +63,6 @@ public:
 	vector<CBNET *> m_BNETs;				// all our battle.net connections (there can be more than one)
 	CBaseGame *m_CurrentGame;				// this game is still in the lobby state
 	CAdminGame *m_AdminGame;				// this "fake game" allows an admin who knows the password to control the bot from the local network
-	std::unique_ptr<CDiscord> m_Discord;	// discord bot for controlling ghostpp
 	vector<CBaseGame *> m_Games;			// these games are in progress
 	boost::thread_group m_GameThreads;		// the threads for games in progress and stuff
 	boost::mutex m_GamesMutex;
@@ -147,8 +145,6 @@ public:
 	bool m_TCPNoDelay;						// config value: use Nagle's algorithm or not
 	uint32_t m_MatchMakingMethod;			// config value: the matchmaking method
 	uint32_t m_MapGameType;					// config value: the MapGameType overwrite (aka: refresh hack)
-	string m_DiscordBotToken;				// config value: discord bot token
-	uint64_t m_DiscordChannelId;			// config value: discord channel id for the bot to listen in 
 	vector<GProxyReconnector *> m_PendingReconnects;
 	boost::mutex m_ReconnectMutex;
 

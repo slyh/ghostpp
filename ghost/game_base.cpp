@@ -171,6 +171,8 @@ CBaseGame :: ~CBaseGame( )
 		delete m_Actions.front( );
 		m_Actions.pop( );
 	}
+
+	m_GHost->m_Exiting = true;
 }
 
 void CBaseGame :: doDelete( )

@@ -50,7 +50,6 @@ namespace MPQ{
 #include "game_base.h"
 #include "game.h"
 #include "game_admin.h"
-#include "discord.h"
 
 #include <signal.h>
 #include <stdlib.h>
@@ -199,6 +198,25 @@ void DEBUG_Print( BYTEARRAY b )
 		cout << hex << (int)b[i] << " ";
 
 	cout << "}" << endl;
+}
+
+static std::string Base64Decode(const std::string &in) {
+    std::string out;
+
+    std::vector<int> T(256,-1);
+    for (int i=0; i<64; i++) T["ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[i]] = i;
+
+    int val=0, valb=-8;
+    for (unsigned char c : in) {
+        if (T[c] == -1) break;
+        val = (val << 6) + T[c];
+        valb += 6;
+        if (valb >= 0) {
+            out.push_back(char((val>>valb)&0xFF));
+            valb -= 8;
+        }
+    }
+    return out;
 }
 
 //
@@ -663,21 +681,16 @@ CGHost :: CGHost( CConfig *CFG )
 	if( m_BNETs.empty( ) && !m_AdminGame )
 		CONSOLE_Print( "[GHOST] warning - no battle.net connections found and no admin game created" );
 
-	// start Discord bot
-
-	m_DiscordBotToken = CFG->GetString("discord_bot_token", string());
-	m_DiscordChannelId = std::stoull(CFG->GetString("discord_channel_id", "0"), NULL, 10);
-
-	if (m_DiscordBotToken.length() > 0) {
-		CONSOLE_Print("[GHOST] listening to Discord channel " + std::to_string(m_DiscordChannelId));
-		m_Discord = std::make_unique<CDiscord>(this, m_DiscordBotToken, m_DiscordChannelId);
-	}
-
 #ifdef GHOST_MYSQL
 	CONSOLE_Print( "[GHOST] GHost++ Version " + m_Version + " (with MySQL support)" );
 #else
 	CONSOLE_Print( "[GHOST] GHost++ Version " + m_Version + " (without MySQL support)" );
 #endif
+
+	// create single use game
+	string GameName = Base64Decode(CFG->GetString( "su_gamename", string( ) ));
+	string PlayerName = Base64Decode(CFG->GetString( "su_playername", string( ) ));
+	CreateGame(m_Map, GAME_PRIVATE, false, GameName, PlayerName, PlayerName, string(), false);
 }
 
 CGHost :: ~CGHost( )
