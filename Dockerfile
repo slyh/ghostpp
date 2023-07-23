@@ -11,11 +11,15 @@ RUN apt-get update && \
     libgmp-dev \
     zlib1g-dev \
     libbz2-dev \
-    libmysql++-dev && \
-    wget -O libdpp.deb https://dl.dpp.dev/ && \
-    apt-get install -y ./libdpp.deb && \
-    rm ./libdpp.deb && \
-    rm -rf /var/lib/apt/lists/*
+    libmysql++-dev
+
+RUN git clone https://github.com/brainboxdotcc/DPP.git
+WORKDIR /build/DPP
+RUN git checkout v10.0.24 && \
+    cmake -B ./build && \
+    cmake --build ./build -j`nproc`
+WORKDIR /build/DPP/build
+RUN make install
 
 WORKDIR /build/bncsutil
 COPY bncsutil .
